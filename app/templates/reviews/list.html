@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Lista recenzji</h2>
+
+  {% for review in reviews %}
+    <div class="card mb-3">
+      <div class="card-body">
+
+        <!-- Tytuł -->
+        <h4><a href="{{ url_for('reviews.review_detail', id=review.id) }}">{{ review.title }}</a></h4>
+
+        <!-- Zajawka treści -->
+        <p>{{ review.content[:80] }}{% if review.content|length > 80 %}...{% endif %}</p>
+
+        <!-- Obrazek -->
+        {% if review.image_path %}
+          <img src="{{ url_for('static', filename=review.image_path) }}"
+               alt="Obrazek recenzji"
+               style="max-width: 200px;"
+               class="img-thumbnail mb-2">
+        {% endif %}
+
+        <!-- Średnia ocena w gwiazdkach -->
+        <div>
+          {% set avg = (review.rating_sum / review.rating_count) if review.rating_count else 0 %}
+          {% for i in range(1, 6) %}
+            {% if avg >= i %}
+              <span class="text-warning">&#9733;</span> {# pełna gwiazdka #}
+            {% elif avg >= i - 0.5 %}
+              <span class="text-warning">&#189;</span> {# połówka #}
+            {% else %}
+              <span class="text-secondary">&#9734;</span> {# pusta gwiazdka #}
+            {% endif %}
+          {% endfor %}
+          <small class="text-muted">({{ "%.1f"|format(avg) }}/5 z {{ review.rating_count }} głosów)</small>
+        </div>
+
+      </div>
+    </div>
+  {% else %}
+    <p>Brak recenzji do wyświetlenia.</p>
+  {% endfor %}
+{% endblock %}

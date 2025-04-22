@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Dodaj recenzję</h2>
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+      {{ form.title.label(class="form-label") }}
+      {{ form.title(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.content.label(class="form-label") }}
+      {{ form.content(class="form-control", rows=5) }}
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Ocena:</label>
+      <div class="star-rating">
+        {% for i in range(5, 0, -1) %}
+          <input type="radio" name="rating" id="star-{{ i }}" value="{{ i }}">
+          <label for="star-{{ i }}" title="{{ i }} gwiazdek">
+            <i class="fas fa-star"></i>
+          </label>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="mb-3">
+      {{ form.image.label(class="form-label") }}
+      {{ form.image(class="form-control") }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Dodaj</button>
+  </form>
+
+  <!-- Font Awesome CDN -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <style>
+    .star-rating {
+      direction: rtl;
+      font-size: 2rem;
+      unicode-bidi: bidi-override;
+      display: inline-flex;
+    }
+
+    .star-rating input {
+      display: none;
+    }
+
+    .star-rating label {
+      color: #ccc;
+      cursor: pointer;
+      padding: 0 4px;
+      transition: color 0.2s ease;
+    }
+
+    .star-rating input:checked ~ label i,
+    .star-rating label:hover i,
+    .star-rating label:hover ~ label i {
+      color: gold;
+    }
+  </style>
+{% endblock %}

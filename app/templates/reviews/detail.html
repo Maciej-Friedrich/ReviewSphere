@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="card mb-4">
+    <div class="card-body">
+      <h3>{{ review.title }}</h3>
+      <p class="text-muted">Dodano: {{ review.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+
+      <p><strong>Ocena recenzenta:</strong> {{ average_rating }}/5</p>
+      <p><strong>Ocena społeczności:</strong> {{ community_rating }}/5 ({{ community_count }} ocen)</p>
+
+      {% if review.image_path %}
+        <img src="{{ url_for('static', filename=review.image_path) }}" class="img-fluid mb-3" alt="Obrazek recenzji">
+      {% endif %}
+      <p>{{ review.content }}</p>
+    </div>
+  </div>
+
+  {% if current_user.is_authenticated %}
+    <form method="POST" class="mb-4">
+      <label><strong>Twoja ocena tej recenzji:</strong></label>
+      <div class="star-rating mb-2">
+        {% for i in range(10, 0, -1) %}
+          <input type="radio" name="community_rating" id="rating-{{ i }}" value="{{ i / 2 }}">
+          <label for="rating-{{ i }}" title="{{ i / 2 }} gwiazdek">&#9733;</label>
+        {% endfor %}
+      </div>
+      <button class="btn btn-sm btn-outline-primary" type="submit">Oceń</button>
+    </form>
+  {% endif %}
+
+  <h4>Komentarze</h4>
+  {% for comment in comments %}
+    <div class="card mb-2">
+      <div class="card-body">
+        <p>{{ comment.content }}</p>
+        <p class="text-muted">Dodano: {{ comment.created_at.strftime('%Y-%m-%d %H:%M') }} przez ID {{ comment.user_id }}</p>
+      </div>
+    </div>
+  {% else %}
+    <p>Brak komentarzy.</p>
+  {% endfor %}
+
+  <hr>
+  <h5>Dodaj komentarz</h5>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+      {{ form.content.label(class="form-label") }}
+      {{ form.content(class="form-control", rows=3) }}
+    </div>
+    <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+  </form>
+
+  <style>
+    .star-rating {
+      direction: rtl;
+      font-size: 1.6rem;
+      unicode-bidi: bidi-override;
+      display: inline-flex;
+    }
+    .star-rating input {
+      display: none;
+    }
+    .star-rating label {
+      color: #ccc;
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .star-rating input:checked ~ label,
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+      color: gold;
+    }
+  </style>
+{% endblock %}
