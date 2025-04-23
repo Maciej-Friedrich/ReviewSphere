@@ -36,3 +36,9 @@ Stworzyć nowoczesne, responsywne narzędzie do publikacji i moderacji recenzji 
   Zarządzanie użytkownikami, rolami oraz moderacja treści.
 
 ---
+## Jak uruchomić
+1. `python -m venv .venv`
+2. `. .venv/Scripts/activate`
+3. `pip install -r requirements.txt`
+4. `flask db upgrade`
+5. `flask run`
