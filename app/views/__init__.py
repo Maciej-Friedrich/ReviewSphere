@@ -28,12 +28,16 @@ def create_app():
     def load_user(user_id):
         return User.query.get(int(user_id))
 
-    # Zarejestruj blueprints
-    from .views import reviews_bp
-    app.register_blueprint(reviews_bp)
+    # Zarejestruj blueprinty z folderu views
+    from .views.auth import auth_bp
+    from .views.reviews import reviews_bp
+    from .views.comments import comments_bp
+    from .views.votes import votes_bp
 
-    from .auth import auth_bp
     app.register_blueprint(auth_bp)
+    app.register_blueprint(reviews_bp)
+    app.register_blueprint(comments_bp)
+    app.register_blueprint(votes_bp)
 
     # Główna strona przekierowuje do listy recenzji
     @app.route('/')

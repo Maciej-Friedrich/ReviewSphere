@@ -1,0 +1,8 @@
+.review-thumbnail {
+    max-width: 200px;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    display: block;
+  }
+  
