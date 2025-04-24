@@ -33,7 +33,9 @@ def create_app():
     from .views.reviews import reviews_bp
     from .views.comments import comments_bp
     from .views.votes import votes_bp
+    from .views.admin import admin_bp
 
+    app.register_blueprint(admin_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(reviews_bp)
     app.register_blueprint(comments_bp)

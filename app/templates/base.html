@@ -6,37 +6,60 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
-
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{{ url_for('reviews.list_reviews') }}">ReviewSphere</a>
-      <div class="collapse navbar-collapse">
+      <a class="navbar-brand" href="{{ url_for('reviews.list_reviews') }}"><i class="fas fa-star-half-alt"></i> ReviewSphere</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('reviews.list_reviews') }}">Strona główna</a>
+            <a class="nav-link" href="{{ url_for('reviews.list_reviews') }}"><i class="fas fa-home"></i> Strona główna</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('reviews.create_review') }}">Dodaj recenzję</a>
+            <a class="nav-link" href="{{ url_for('reviews.create_review') }}"><i class="fas fa-plus-circle"></i> Dodaj recenzję</a>
           </li>
         </ul>
+
+        <!-- Search form -->
+        <form class="d-flex me-3" method="GET" action="{{ url_for('reviews.search') }}">
+          <input class="form-control me-2" type="search" name="q" placeholder="Szukaj recenzji..." aria-label="Search">
+          <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+
         <ul class="navbar-nav ms-auto">
           {% if current_user.is_authenticated %}
-          <li class="nav-item">
-            <span class="navbar-text me-2">Zalogowany jako {{ current_user.username }}</span>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('auth.logout') }}">Wyloguj się</a>
-          </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                {% if current_user.avatar %}
+                  <img src="{{ url_for('static', filename=current_user.avatar.replace('\\', '/')) }}" alt="avatar" class="rounded-circle me-2" width="30" height="30">
+                {% else %}
+                  <i class="fas fa-user-circle fa-lg me-2"></i>
+                {% endif %}
+                {{ current_user.username }}
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                {% if current_user.role == 'admin' %}
+                  <li><a class="dropdown-item" href="{{ url_for('admin.user_list') }}"><i class="fas fa-users-cog"></i> Panel admina</a></li>
+                {% endif %}
+                <li>
+                  <a class="dropdown-item" href="#" onclick="toggleDarkMode()">
+                    <i class="fas fa-moon"></i> Tryb ciemny
+                  </a>
+                </li>                
+                <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}"><i class="fas fa-sign-out-alt"></i> Wyloguj się</a></li>
+              </ul>
+            </li>
           {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('auth.login') }}">Zaloguj</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('auth.register') }}">Zarejestruj</a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('auth.login') }}"><i class="fas fa-sign-in-alt"></i> Zaloguj</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('auth.register') }}"><i class="fas fa-user-plus"></i> Zarejestruj</a>
+            </li>
           {% endif %}
         </ul>
       </div>
@@ -54,5 +77,24 @@
 
     {% block content %}{% endblock %}
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+      if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem("theme", "dark");
+      } else {
+        localStorage.setItem("theme", "light");
+      }
+    }
+  
+    window.onload = function () {
+      if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+      }
+    };
+  </script>
+  
 </body>
 </html>

@@ -128,3 +128,17 @@ def delete_review(id):
 @reviews_bp.route('/index')
 def root_redirect():
     return redirect(url_for('reviews.list_reviews'))
+
+@reviews_bp.route('/search')
+def search():
+    query = request.args.get('q', '')
+    if not query:
+        return redirect(url_for('reviews.list_reviews'))
+
+    results = Review.query.filter(
+        Review.title.ilike(f'%{query}%') |
+        Review.content.ilike(f'%{query}%')
+    ).all()
+
+    return render_template('reviews/list.html', reviews=results, query=query)
+
