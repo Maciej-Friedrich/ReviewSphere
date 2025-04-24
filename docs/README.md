@@ -1,44 +1,28 @@
-# ReviewSphere
+# ReviewSphere 🎬
 
-Portal recenzji multimedialnych
+ReviewSphere to aplikacja do dodawania i oceniania recenzji z możliwością komentowania, głosowania oraz moderacji.
 
----
+## 🔧 Wymagania
+- Python 3.10+
+- Virtualenv
+- MySQL lub SQLite (domyślnie SQLite)
 
-## 1. Wprowadzenie
+## 🚀 Instalacja i uruchomienie
 
-Projekt **„Portal recenzji multimedialnych”** to aplikacja webowa napisana w Pythonie z wykorzystaniem bazy danych MySQL. Umożliwia użytkownikom (recenzentom) dodawanie recenzji filmów, książek, gier itp., wzbogaconych o grafikę (okładki lub zrzuty ekranu). Zaawansowany system uprawnień definiuje role:
+```bash
+# 1. Klonuj repozytorium
+git clone https://github.com/uzytkownik/ReviewSphere.git
+cd ReviewSphere
 
-- **Recenzent**  
-- **Moderator**  
-- **Administrator**
+# 2. Utwórz środowisko wirtualne
+python -m venv venv
+source venv/bin/activate    # lub .\venv\Scripts\activate na Windows
 
----
+# 3. Zainstaluj zależności
+pip install -r requirements.txt
 
-## 2. Opis systemu
+# 4. Utwórz bazę danych
+flask db upgrade
 
-### Cel
-
-Stworzyć nowoczesne, responsywne narzędzie do publikacji i moderacji recenzji multimedialnych.
-
-### Główne moduły
-
-- **Rejestracja i logowanie użytkowników**  
-  Obsługa rejestracji, logowania oraz resetowania hasła.  
-- **Formularz dodawania recenzji**  
-  Możliwość pisania recenzji z dołączaniem obrazków (okładek, zrzutów ekranu).  
-- **System oceniania (gwiazdki)**  
-  Użytkownicy mogą przyznawać oceny w skali od 1 do 5 gwiazdek.  
-- **Sekcja komentarzy**  
-  Pod każdą recenzją znajduje się możliwość dodawania i przeglądania komentarzy.  
-- **Panel moderacji**  
-  Automatyczne wykrywanie i blokowanie wulgaryzmów oraz naruszeń regulaminu.  
-- **Panel administratora**  
-  Zarządzanie użytkownikami, rolami oraz moderacja treści.
-
----
-## Jak uruchomić
-1. `python -m venv .venv`
-2. `. .venv/Scripts/activate`
-3. `pip install -r requirements.txt`
-4. `flask db upgrade`
-5. `flask run`
+# 5. Uruchom aplikację
+flask run
