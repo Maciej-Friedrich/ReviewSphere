@@ -1,40 +1,106 @@
-# ReviewSphere 🎬
 
-ReviewSphere to aplikacja do dodawania i oceniania recenzji z możliwością komentowania, głosowania oraz moderacji.
+# ReviewSphere 🎬🌟
 
-## Wymagania
+ReviewSphere to aplikacja webowa do publikowania, oceniania i komentowania recenzji z wbudowanym systemem ról, moderacją treści oraz trybem ciemnym.
+
+## 🔧 Wymagania
 
 - Python 3.10+
-- pip (Python package manager)
-- XAMPP (z Apache + MySQL)
-- phpMyAdmin (do łatwego zarządzania bazą danych)
+- Virtualenv
+- XAMPP (zalecane do lokalnej bazy danych MySQL i phpMyAdmin)
 
-## Konfiguracja środowiska
+## 🚀 Instalacja
 
-1. Zainstaluj [XAMPP](https://www.apachefriends.org/index.html) i uruchom serwery Apache oraz MySQL.
-2. Otwórz `phpMyAdmin` (`http://localhost/phpmyadmin`) i stwórz bazę danych o nazwie `reviewsphere_db`.
-3. Skonfiguruj połączenie z bazą danych w pliku `config.py`, np.:
-
-```python
-SQLALCHEMY_DATABASE_URI = 'mysql://root:@localhost/reviewsphere_db'
-
-
-## 🚀 Instalacja i uruchomienie
+1. **Klonuj repozytorium**
 
 ```bash
-# 1. Klonuj repozytorium
-git clone https://github.com/uzytkownik/ReviewSphere.git
+git clone https://github.com/TwojaNazwaUzytkownika/ReviewSphere.git
 cd ReviewSphere
+```
 
-# 2. Utwórz środowisko wirtualne
+2. **Utwórz środowisko wirtualne i aktywuj je**
+
+```bash
 python -m venv venv
-source venv/bin/activate    # lub .\venv\Scripts\activate na Windows
+venv\Scripts\activate  # Windows
+```
 
-# 3. Zainstaluj zależności
+3. **Zainstaluj zależności**
+
+```bash
 pip install -r requirements.txt
+```
 
-# 4. Utwórz bazę danych
+4. **Skonfiguruj bazę danych z XAMPP**
+
+- Uruchom XAMPP i włącz moduł **MySQL**.
+- Przejdź do [phpMyAdmin](http://localhost/phpmyadmin).
+- Utwórz nową bazę danych: `reviewsphere_db`.
+
+5. **Dodaj plik `config.py`**
+
+```python
+class Config:
+    SECRET_KEY = 'twoj-sekret'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/reviewsphere_db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+```
+
+6. **Zainicjalizuj bazę danych**
+
+```bash
+flask db init
+flask db migrate
 flask db upgrade
+```
 
-# 5. Uruchom aplikację
+7. **Uruchom aplikację**
+
+```bash
 flask run
+```
+
+Aplikacja dostępna będzie pod `http://localhost:5000`.
+
+## 📷 Zrzuty ekranu
+
+(dodaj tutaj obrazy GUI: strony recenzji, komentarzy, panel admina)
+
+## 👥 Role użytkowników
+
+- `recenzent`: podstawowy użytkownik z możliwością dodawania recenzji i komentowania
+- `moderator`: może edytować/usunąć komentarze innych
+- `admin`: pełna kontrola, możliwość zmiany ról
+
+## 🔒 System głosowania i moderacji
+
+- Głosowanie na komentarze (↑/↓), 1 głos na użytkownika
+- Ostrzeganie i ukrywanie komentarzy zawierających wiele wulgaryzmów
+- Edycja i usuwanie recenzji/komentarzy przez właścicieli i moderatorów
+
+## 🌙 Tryb ciemny
+
+- Możliwość przełączania trybu ciemnego przez dropdown menu użytkownika
+- Preferencje zapisywane w `localStorage`
+
+## 📂 Struktura katalogów
+
+```
+ReviewSphere/
+│
+├── app/
+│   ├── templates/
+│   ├── static/
+│   ├── views/
+│   ├── models.py
+│   ├── forms.py
+│   └── ...
+├── migrations/
+├── config.py
+├── requirements.txt
+└── README.md
+```
+
+## 📃 Licencja
+
+Projekt stworzony w celach edukacyjnych.
